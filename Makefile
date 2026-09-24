@@ -4,7 +4,7 @@ JUNIT_JAR := libs/junit.jar
 SRCS := $(shell find src -name '*.java' 2>/dev/null)
 TESTS := $(shell find test -name '*.java' 2>/dev/null)
 
-.PHONY: deps build test clean
+.PHONY: deps build test pmd spotbugs clean
 
 deps: $(JUNIT_JAR)
 
@@ -18,6 +18,12 @@ build: deps
 
 test: build
 	java -jar $(JUNIT_JAR) --class-path build --scan-class-path
+
+pmd:
+	-pmd check -d src -R rulesets/java/quickstart.xml -R category/java/design.xml/CyclomaticComplexity -f text
+
+spotbugs: build
+	spotbugs -textui -auxclasspath $(JUNIT_JAR) build
 
 clean:
 	rm -rf build libs
