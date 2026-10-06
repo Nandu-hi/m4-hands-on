@@ -9,7 +9,10 @@
  *   5. Add regional tax.
  *
  */
-public class PriceEngine {
+public final class PriceEngine {
+
+    private PriceEngine() {
+    }
 
     public static Money quote(Order order, Customer customer) {
         if (order == null || order.lines() == null || order.lines().isEmpty()) {
